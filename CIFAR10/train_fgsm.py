@@ -140,6 +140,7 @@ def main():
             best_state_dict = copy.deepcopy(model.state_dict())
         epoch_time = time.time()
         lr = scheduler.get_lr()[0]
+        print("train acc:", train_acc/(i+1))
         logger.info('%d \t %.1f \t \t %.4f \t %.4f \t %.4f',
             epoch, epoch_time - start_epoch_time, lr, train_loss/train_n, train_acc/train_n)
     train_time = time.time()
@@ -156,6 +157,9 @@ def main():
 
     pgd_loss, pgd_acc = evaluate_pgd(test_loader, model_test, 50, 10)
     test_loss, test_acc = evaluate_standard(test_loader, model_test)
+    
+    print("pgd acc:", pgd_acc)
+    print("test acc:", test_acc)
 
     logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
     logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
